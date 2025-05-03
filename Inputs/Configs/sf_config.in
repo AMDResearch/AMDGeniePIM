@@ -1,0 +1,249 @@
+# PIM parameters 
+# --------------
+# List of evaluated memory stacks count separated by ','.
+STACK_COUNT_LIST=1
+
+# List of evaluated channels per stack count separated by ','.
+CHANNEL_PER_STACK_LIST=8
+
+# List of evaluated banks per channel count separated by ','.
+BANKS_PER_CHANNEL_LIST=16
+
+# List of evaluated DRAM row sizes in bytes separated by ','.
+DRAM_ROW_SIZE_LIST=2048
+
+# List of evaluated banks sharing a single PIM unit separated by ','.
+BANKS_PER_PIM_UNIT_LIST=1
+
+# List of evaluated PIM ALUs per PIM unit separated by ','.
+PIM_ALU_PER_PIM_UNIT_LIST=1
+
+# List of evaluated output register file (ORF) registers per PIM ALU separated by ','.
+ORF_REGISTERS_PER_PIM_ALU_LIST=4
+
+# List of evaluated input register file (IRF) registers per PIM ALU separated by ','.
+IRF_REGISTERS_PER_PIM_ALU_LIST=8
+
+# List of evaluated DRAM word sizes (and ALU width) in bits separated by ','.
+SIMD_WIDTH_LIST=256 
+
+# List of PIM compute rate for PIM MAC commands separated by ','.
+# Can be lower than 1 to model faster PIM MAC execution.
+PIM_COMPUTE_RATE_LIST=1
+
+# List of sizes of the registers in ORF (output register file) in bits separated by ','.
+PIM_ORF_REGISTER_SIZE_LIST=512
+
+# List of sizes of the registers in IRF (input register file) in bits separated by ','.
+PIM_IRF_REGISTER_SIZE_LIST=256
+
+# List of memory interleaving granularity sizes in bytes separated by ','.
+# This is added for future need.
+MEMORY_INTERLEAVING_GRANULARITY_SIZE_LIST=256
+
+# Flag to enable host to write vector data to PIM without tRTW and tWTR overhead. 
+# This can be 'True', 'False', or 'True,False'.
+IGNORE_HOST_VECTOR_WRITE_OVERHEAD_LIST=False
+
+# Host parameters (Host = IPU, GPU, etc.)
+# ---------------------------------------
+# List of evaluated hosts separated by ','. 
+# Each host parameters is a tuple of (Host id, memory hierarchy specs, compute specs) separated by '/'. 
+# The memory hierarchy specs is described by a list of memory sources separated by '&'.
+# Each memory source is a tuple of (memory type, peak bandwidth, bandwidth utilization) separated by ':'.
+# 'MEM' must be one of the sources.
+# The compute specs is described by a list of compute sources separated by '&'.
+# Each compute source is a tuple of (operand size, peak compute throughput, compute efficiency) separated by ':'.
+HOST_PEAK_MEM_COMPUTE_LIST=IPU/MEM:120:1/4:66.352:1&6:44.235:1&8:33.176:1&16:16.588:1&32:8.294:1,IPU/MEM:120:0.75/4:66.352:1&6:44.235:1&8:33.176:1&16:16.588:1&32:8.294:1,IPU/MEM:120:0.5/4:66.352:1&6:44.235:1&8:33.176:1&16:16.588:1&32:8.294:1
+
+# Bandwidth source & sink for each GEMV input/output.
+# These soruces/sinks must be in the list of bandwidth sources in HOST_PEAK_MEM_COMPUTE_LIST.
+# 'MEM' must be one of the sources in HOST_PEAK_MEM_COMPUTE_LIST.
+GEMM_MATRIX_INPUT_SRC_LIST=MEM
+GEMM_VECTOR_INPUT_SRC_LIST=MEM
+GEMM_VECTOR_OUTPUT_DEST_LIST=MEM
+
+# DRAM parameters
+# ---------------
+# List of evaluated DRAM timing parameters separated by ','.
+# Each DRAM timing is a tuple of ('mem-type', tRP, tRCDRD, tCCDL, tRAS, tRTW, tWTR) separated by '/'.
+DRAM_PARAMTERS_LIST=LPDDR5X/21/18/4.266667/42/18.13333333/12.00
+
+# Workload-specific parameters
+# ----------------------------
+# List of evaluated operand sizes in bits separated by ','.
+# These operand sizes must be in the list of compute sources in HOST_PEAK_MEM_COMPUTE_LIST.
+# Matrix (MxK) operand size (bits)
+OPERAND_SIZE_LIST=8
+
+# List of skinny matrix (or vector - KxN) operand size (bits) separated by ','.
+ACT_OPERAND_SIZE_LIST=8
+
+# Blocked-format related
+# List of block size (number of elements) separated by ','.
+# For scalar formats, this must be set to 1.
+BLOCK_SIZE_LIST=32
+
+# Flag to indicate if the scaling in the blocked formats is processed by host.
+# This can be 'True', 'False', or 'True,False'.
+PROCESS_SCALE_FACTORS_AT_HOST_FLAG_LIST=False
+
+# List of GEMV inputs using blocked formats separated by ','.
+# This parameter is used if block size > 1 i.e., blocked formats are used for either (or both GEMV inputs).
+# Each entry is a tuple of (weights, activations) separated by '/'.
+# Each value can either be True or False. Value of "False/False" does not make sense as it is equivalent to not using blocked formats (i.e., block size = 1).
+BLOCKED_INPUTS_FLAG_LIST=True/True
+
+# List of scale factor operand size (bits) separated by ','.
+SCALE_FACTOR_OPERAND_SIZE_LIST=16
+
+# Flag to indicate optimized loading of matrix's scale factors into registers.
+# This can be 'True', 'False', or 'True,False'.   
+ASSUME_OPTIMIZED_SCALE_FACTORS_INTO_REGISTER_FLAG_LIST=True
+
+# List of activations' scale factor operand size (bits) separated by ','.
+ACT_SCALE_FACTOR_OPERAND_SIZE_LIST=16
+
+# List of assumed accumulation size (bits) separated by ','.
+# This is used to model higher accumulation precision for both scalar and blocked formats. 
+# Set this to max(OPERAND_SIZE, ACT_OPERAND_SIZE) if you do not want to accumulate in higher precision.
+ACCUMULATION_OPERAND_SIZE_LIST=32
+
+# List of number of extra PIM commands overhead for scale factors processing in blocked formats separated by ','.
+SCALE_FACTOR_EXTRA_PIM_COMMANDS_OVERHEAD_LIST=1
+
+# List of number of output registers multiplier required for a single vector computation separated by ','.
+REGISTERS_MULT_REQUIRED_FOR_ACCUMULATION_LIST=1
+
+# List of number of PIM commands overhead for upcasting heterogeneous inputs separated by ','.
+UPCASTING_PIM_COMMANDS_OVERHEAD_LIST=0
+
+# Related to Host execution
+# Flag to include reading input KxN matrix bytes as part of host-only execution memory traffic.
+# This can be 'True', 'False', or 'True,False'.   
+IGNORE_HOST_READ_INPUT_FLAG_FOR_HOST_EXEC_LIST=True
+
+# Flag to include writing output matrix (MxN) bytes as part of host-only execution memory traffic.
+# This can be 'True', 'False', or 'True,False'.   
+IGNORE_HOST_WRITE_OUTPUT_FLAG_FOR_HOST_EXEC_LIST=True
+
+# Related to PIM execution
+# Flag to not include the row activation overhead in PIM execution time.  
+# This can be 'True', 'False', or 'True,False'.   
+HIDE_ROW_OPEN_OVERHEAD_FLAG_LIST=False 
+
+# Flag to not include time of the host reading input *KxN* matrix as part of PIM execution.
+# This can be 'True', 'False', or 'True,False'.   
+IGNORE_HOST_READ_INPUT_FLAG_FOR_PIM_EXEC_LIST=False
+
+# Flag to not include time of the host reading output *MxN* matrix after PIM execution.
+# This can be 'True', 'False', or 'True,False'.   
+IGNORE_HOST_READ_OUTPUT_FLAG_FOR_PIM_EXEC_LIST=False
+
+# List of evaluated PIM execution modes. Possible values are the following.
+# 'OPTIM' = Optimistic mode that assumes no change in matrix size and uniform distribution of work across banks. 
+# 'REAL' = Realistic mode that utlizes (virtual) padding, adjust PIM tile shape/order, split-K, or COLLAB to achieve bank locality for the MxK matrix (i.e., align with banks count, etc).  
+PIM_EXECUTION_MODE_LIST=REAL
+
+# List of number of PIM commands overhead to process the activation function (e.g., ReLU) separated by ','.
+# If ZERO, then as if no activation function is assumed to run on PIM after GEMV operations
+ACTIVATIONS_PIM_COMMANDS_OVERHEAD_LIST=0
+
+# List of number of registers required to store vector scalar data separated by ','.
+# Each entry is a tuple of (register count, register type) for scalar vector data separated by '/'.
+# Count can ONLY be 0 or higher (must not exceed total register count), where '0' indicates a special-purpose register for vector data and hence does not take from ORF or IRF available registers.  
+# Type for scalar data can be "ORF" = 0 = output register file, "IRF" = 1 = input register file, "PART_OF_PIM_COMMAND" = -1 = host sending the vector data as part of PIM command.
+# If type is not set correctly, then '-1'  is assumed. 
+REGISTERS_REQUIRED_FOR_VECTOR_SCALAR_DATA_LIST=7/1
+
+# List of number of registers required to store vector scale factor data separated by ','.
+# Each entry is a tuple of (register count, register type) for scale factor vector data separated by '/'.
+# Count can be zero or higher (must not exceed total register count), where '0' indicates a special-purpose register for vector data and hence does not take from ORF or IRF available registers.  
+# Type for scale factors can be "ORF" = 0 = output register file, "IRF" = 1 = input register file, "PART_OF_PIM_COMMAND" = -1 = host sending the vector data as part of PIM command.
+# If type is not set correctly, then '-1'  is assumed. 
+REGISTERS_REQUIRED_FOR_VECTOR_SCALE_FACTOR_DATA_LIST=1/1
+
+# List of number of registers required to store weights scale factor data separated by ','.
+# Each entry is a tuple of (register count, register type) for scale factor vector data separated by '/'.
+# Count can be -1 or higher (must not exceed total register count), where '0' indicates a special-purpose register for vector data and hence does not take from ORF or IRF available registers.  
+# Type for scale factor data can be "ORF" = 0 = output register file or "IRF" = 1 = input register file.
+# If type is not set correctly, then '0'  is assumed. 
+REGISTERS_REQUIRED_FOR_MATRIX_SCALE_FACTOR_DATA_LIST=1/0
+
+# Flag to ignore output register pressure in PIM execution. 
+# This can be 'True', 'False', or 'True,False'.
+IGNORE_OUTPUT_REGISTER_PRESSURE_FLAG_LIST=True
+
+# Flag to ignore input register pressure in PIM execution. 
+# This can be 'True', 'False', or 'True,False'.
+IGNORE_INPUT_REGISTER_PRESSURE_FLAG_LIST=True
+
+# List of the number of matrix (MxK) rows assumed in the PIM tile for interleaving separated by ','.
+# Assume this is referred to as 'm' and the number of matrix columns in tile as 'k', then m * k * operand_size = memory interleaving granularity assumed in MEMORY_INTERLEAVING_GRANULARITY_SIZE_LIST.
+# If needed, compute 'k' as m * k * operand_size is not allowed to be < interleaving granularity size.
+# ONLY power-of-two values are allowed.
+# The user must be aware when setting this value as the behavior changes based on the operand_size value.
+# The maximum value for this should be the number of elements in the interleaving granularity (which depends on the assumed operand_size), while the minimum value should be 1.   
+# The user can set this value to -1. In this case, AMD GeniePIM would pick 'm' that eliminates the need for padding.
+# The user can set this value to 0. In this case, AMD GeniePIM would pick 'm' to be equal to number_of_simd_lanes (which depends on the assumed operand_size). 
+PIM_TILE_SHAPE_DEGREE_LIST=16
+
+# List of PIM tile order degree for mapping the input MxK matrix on PIM. 
+# Tile Order Degree = number of row blocks (of the matrix) to process as a single unit (i.e., reuse the input from the host when processing them).  
+# The maximum value for this should be the number of row blocks per bank. In other words, fully reuse the input written from the host across all row blocks. 
+# The minimum value for this should be 1 -> CRO-1 (i.e., fully process one row block before switching to the next one). This results in the least output register pressure but the worst input reuse.
+# The user can set this value to -1. In this case, AMD GeniePIM would pick the tile order degree that uses the "remaining" available registers.
+# The user can set this value to 0. In this case, AMD GeniePIM would assume CRO-MAX i.e., process the same part (i.e., tile) of all row blocks using the same input before switching to next part. This results in the best input reuse but the highest output register pressure.  
+# In case of host sending the vector data as part of the PIM command, then CRO of degree = 1 should be better as other higher degrees would only results in increased register pressure.
+PIM_TILE_ORDER_DEGREE_LIST=2
+
+# List of vertical splits to use for split-K optimzation on PIM in input MxK matrix. 
+# If the matrix does not have enough work (row blocks) to distribute over the banks, then split the matrix vertically to avail more work across banks. 
+# Split-K can also help in reducing the padding required for a given PIM tile shape as it effectively helps providing more work (row blocks) across the banks, thus reducing the need for padding.    
+# The maximum value for this should be the number of channels in the system (i.e., "number of channels - 1" splits). That is because in this case, the banks within one channel are processing a single vertical split. Higher than that should result in the same performance but may be more complex placement/layout. 
+# The minimum value for this should be 1 (i.e., no splitting).
+# The user can set this value to -1. In this case, AMD GeniePIM would pick split-K degree that eliminates the need for padding. 
+SPLIT_K_DEGREE_LIST=1
+
+# List of modes to determine the number of shift operations for cross-SIMD reduction separated by ','.
+# This can be '0' = single lane shifts only or '1' = minimum lane shifts. For example, if a two lanes shift is required, a single lane shift will assume two pim-SHIFT commands, while minimum lane shift will assume a single shift command. 
+SHIFT_LANE_MODE_LIST=0
+
+# Flag to enable PIM to ensure full register before writing output to memory. 
+# This can be 'True', 'False', or 'True,False'.
+ASSUME_FULL_REGISTER_BEFORE_WRITE_TO_MEM_LIST=True
+
+# List of host-induced turnaround time (in ns) separated by ','.
+# This is used to represent a possible overhead from switching between writing the input vector to PIM and multiplication of the input matrix and the input vector. 
+HOST_INDUCED_TURNAROUND_OVERHEAD_LIST=0
+
+# List of number of PIM commands overhead to spill/reset data from the accumulation register and later load data into it separated by ','.
+ACCUMULATION_REGISTER_LOAD_PIM_COMMANDS_OVERHEAD_LIST=1
+
+# List of number of PIM commands overhead to spill/reset data from the accumulation register separated by ','.
+ACCUMULATION_REGISTER_SPILL_PIM_COMMANDS_OVERHEAD_LIST=0
+
+# List of spill size to memory from ORFs in bits separated by ','. 
+# This is used to determine how many PIM writes are required to spill a single register. 
+# If value is ZERO, then ignore and assume one PIM write regardless the ORF size.
+MEM_SPILL_SIZE_LIST=256
+
+# List of MAC unit output size in bits to assume to be fixed separated by ','. 
+# If value is ZERO, then ignore and assume MAC unit output to vary based on inputs.
+MAC_UNIT_OUTPUT_SIZE_LIST=512
+
+# Flag to enable packing of matrix elements and scale factors in same or adjactent DRAM rows separated by ','.
+# For example, assume the scale factors are interleaved with the matrix elements so whenever you are done with block level pim-MACs, you will find the scale factors required. 
+# This can be 'True', 'False', or 'True,False'.
+ASSUME_MATRIX_SCALE_FACTORS_SMART_PACKING_LIST=True
+
+# List of number of extra PIM commands overhead for output compaction (read, mask, mov) before spilling output to memory separated by ','.
+OUTPUT_COMPACT_EXTRA_PIM_COMMANDS_OVERHEAD_LIST=0
+
+# Flag to enable free shifts & adds for cross-SIMD reduction separated by ','.
+# This can be 'True', 'False', or 'True,False'.
+ASSUME_FREE_CROSS_SIMD_REDUCTION_LIST=True
+
+# Flag to enable use of a minimum of a single register for input separated by ','.
+# This can be 'True', 'False', or 'True,False'.
+ASSUME_SINGLE_INPUT_REGISTER_LIST=False

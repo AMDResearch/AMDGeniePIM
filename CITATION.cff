@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Ibrahim"
+  given-names: "Mohamed"
+- family-names: "Islam"
+  given-names: "Mahzabeen"
+- family-names: "Aga"
+  given-names: "Shaizeen"
+title: "AMD GeniePIM - A Processing-In-Memory (PIM) Analytical Performance Model for GenAI"
+version: 0.0.0
+date-released: 2025-04-01
+url: "https://github.com/AMDResearch/AMDGeniePIM"
+
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Ibrahim"
+    given-names: "Mohamed"
+  - family-names: "Islam"
+    given-names: "Mahzabeen"
+  - family-names: "Aga"
+    given-names: "Shaizeen"
+  doi: "10.1109/SCW63240.2024.00137"
+  journal: "SC24-W: Workshops of the International Conference for High Performance Computing, Networking, Storage and Analysis"
+  month: 11
+  start: 970 
+  end: 981 
+  title: "PIMnast: Balanced Data Placement for GEMV Acceleration with Processing-In-Memory"
+  year: 2024
