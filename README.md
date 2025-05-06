@@ -195,7 +195,7 @@ If you use AMD GeniePIM in your work, please cite us as below:
     title       = {AMD GeniePIM - A Processing-In-Memory (PIM) Analytical Performance Model for GenAI},\
     year        = {2025},\
     publisher   = {Advanced Micro Devices, Inc.},\
-    url         = {https://github.com/AMDResearch/AMDGeniePIM}
+    url         = {https://github.com/AMDResearch/AMDGeniePIM }
 }
 
 OR
@@ -207,7 +207,7 @@ OR
     doi        = {10.1109/SCW63240.2024.00137},\
     booktitle  = {Proceedings of the SC'24 Workshops of the International Conference on High Performance Computing, Network, Storage, and Analysis},\
     pages      = {970–981},\
-    url        = {https://doi.org/10.1109/SCW63240.2024.00137}
+    url        = {https://doi.org/10.1109/SCW63240.2024.00137 }
 }
 
 ## Bonus
