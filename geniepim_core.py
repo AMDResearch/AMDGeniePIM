@@ -767,8 +767,7 @@ class geniepim_core:
             # Perform one of the multiplies when loading the scale factors of the matrix into the registers. In other words, instead of opening the DRAM rows of the matrix scale factors to move to registers, open the rows and multiply the LIO with the shared exponent of the input vector (from host). Therefore, the code uses (mul_count - 1). 
             # No need to mulyiply by the number of concurrent vectors as the same PIM commands will run on all ALUs per PIM unit.
             mul_count = self.compute_blocked_mul_count()
-            mul_pim_commands_per_block = mul_count * adjusted_num_output_reg_per_row_blk
-
+            
             # Check if smart packing of scale factors is used. 
             if self.config.pim_matrix_scale_factors_smart_pack_flag == False:
                 # No smart packing, so assume performing one MUL/MAC (between vector and matrix scale factors) when loading matrix scale factors into IRFs.
